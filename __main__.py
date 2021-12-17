@@ -1,34 +1,15 @@
 from BlockChain.core.HashChainNode import HashChainNode
+from BlockChain.core.Transaction import Transaction
+from BlockChain.utils.CheckBalance import calculate_balance
 
 
 if __name__ == "__main__":
-    head = HashChainNode('x, y $20', is_head=True)
-    next = HashChainNode('y, z $10', parent=head)
-    next2 = HashChainNode('z, x $5', parent=next)
+    head = HashChainNode(Transaction('x', 'y', 20), is_head=True)
+    next = HashChainNode(Transaction('y', 'z', 10), parent=head)
+    next2 = HashChainNode(Transaction('z', 'x', 5), parent=next)
 
     # Comment / uncomment to corrupt hash
-    # next._value = "z, y $10"
+    # next._value = Transaction('x', 'z', 100)
 
-    curr = head
-    curr_hash = None
-    while True:
-
-        # Print the current node
-        print(f"Current Value:{curr.get_stored_value()}")
-
-        # Check if there is a child
-        if curr.next is None:
-            print(f"No next node to check for hash")
-            break
-
-        # Check if the hash is correct from the child
-        child = curr.next
-
-        if match := HashChainNode.check_hash(curr, child):
-            print(f"Hash match: {HashChainNode.check_hash(curr, child)}\n")
-        else:
-            print(f"Hash mismatch, chain is rejected\n")
-            break
-
-        # Go to the next part of the chain
-        curr = curr.next
+    print(head)
+    print(calculate_balance(head))
