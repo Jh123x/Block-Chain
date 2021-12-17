@@ -1,0 +1,2 @@
+from .ChainNodeTest import ChainNodeTest
+from .HashChainNodeTest import HashChainNodeTest
