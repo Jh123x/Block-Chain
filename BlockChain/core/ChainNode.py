@@ -5,17 +5,23 @@ class ChainNode(object):
     def __init__(self, value: Any, parent: 'ChainNode' = None, is_head: bool = False) -> None:
         """A chain node is a node in a chain"""
         super().__init__()
-        self.is_head = False
+        self.is_head = is_head
         self._parent = parent
 
-        if is_head and parent is not None:
-            raise ValueError("Head nodes cannot have a parent")
+        self._is_valid_chain(parent, is_head)
 
         if parent is not None:
             parent.next = self
 
         self._value = value
         self._next = None
+
+    def _is_valid_chain(self, parent, is_head):
+        if is_head and parent is not None:
+            raise ValueError("Head nodes cannot have a parent")
+
+        if not is_head and parent is None:
+            raise ValueError("Non-head nodes must have a parent")
 
     def get_stored_value(self) -> Any:
         """Gets the value stored in the node"""
@@ -37,3 +43,6 @@ class ChainNode(object):
     @parent.setter
     def parent(self, value: 'ChainNode') -> None:
         self._parent = value
+
+    def __str__(self):
+        return f"ChainNode: {str(self._value)} -> {str(self._next)}"
