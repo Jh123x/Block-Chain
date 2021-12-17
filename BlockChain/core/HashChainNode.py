@@ -1,5 +1,4 @@
-from ctypes import resize
-import hashlib
+from hashlib import sha512
 from types import FunctionType
 from typing import Any, Optional
 from .ChainNode import ChainNode
@@ -8,14 +7,19 @@ from .ChainNode import ChainNode
 class HashChainNode(ChainNode):
 
     @staticmethod
-    def hash(chain: 'ChainNode', hash_function: FunctionType = hashlib.sha512) -> int:
+    def hash(chain: 'HashChainNode', hash_function: FunctionType = sha512) -> int:
         """
         The hash function is applied to the value of the node.
         Returns None if the chain has no value
         """
         if chain is None:
             return None
+
         return hash_function(chain.get_stored_value().encode()).hexdigest()
+
+    @staticmethod
+    def check_hash(parent: 'HashChainNode', child: 'HashChainNode') -> bool:
+        return HashChainNode.hash(parent) == child.parent_hash
 
     def __init__(self, value: Any, parent: 'ChainNode' = None, is_head: bool = False) -> None:
         """A hash chain node is a chain node with a hash value"""
