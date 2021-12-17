@@ -1,12 +1,12 @@
 import unittest
-from BlockChain.core.ChainNode import ChainNode
+from BlockChain.core.HashChainNode import HashChainNode
 
 
-class ChainNodeTest(unittest.TestCase):
+class HashChainNodeTest(unittest.TestCase):
 
     def test_init_head_success(self):
         """Check if the values of the chain is stored correctly"""
-        node = ChainNode(1, is_head=True)
+        node = HashChainNode(1, is_head=True)
         self.assertEqual(node.get_stored_value(), 1)
         self.assertTrue(node.is_head)
         self.assertIsNone(node.next)
@@ -15,7 +15,7 @@ class ChainNodeTest(unittest.TestCase):
     def test_init_failure(self):
         """Initializing head with a parent should fail"""
         try:
-            _ = ChainNode(1, parent=ChainNode(2), is_head=True)
+            _ = HashChainNode(1, parent=HashChainNode(2), is_head=True)
         except ValueError:
             return
         else:
@@ -23,7 +23,8 @@ class ChainNodeTest(unittest.TestCase):
 
     def test_init_child_success(self):
         """Check if the values of the chain is stored correctly"""
-        node = ChainNode(1, is_head=False, parent=ChainNode(2, is_head=True))
+        node = HashChainNode(
+            1, is_head=False, parent=HashChainNode(2, is_head=True))
         self.assertEqual(node.get_stored_value(), 1)
         self.assertFalse(node.is_head)
         self.assertIsNone(node.next)
@@ -32,7 +33,7 @@ class ChainNodeTest(unittest.TestCase):
     def test_init_child_failure(self):
         """Initialize a child without a parent"""
         try:
-            node = ChainNode(1)
+            node = HashChainNode(1)
         except ValueError:
             return
         else:
@@ -40,27 +41,29 @@ class ChainNodeTest(unittest.TestCase):
 
     def test_get_stored_value(self):
         """Check if the values of the chain is stored correctly"""
-        node = ChainNode(1, is_head=True)
+        node = HashChainNode(1, is_head=True)
         self.assertEqual(node.get_stored_value(), 1)
 
-    def test_parent_success(self):
+    def test_parent(self):
         """Check if the parent is the same as the child"""
-        parent = ChainNode(1, is_head=True)
-        node = ChainNode(2, is_head=False, parent=parent)
-
+        parent = HashChainNode(1, is_head=True)
+        node = HashChainNode(2, parent=parent)
         self.assertEqual(node.parent, parent)
-
-    def test_parent_failure(self):
-        parent = 3
-        try:
-            _ = ChainNode(2, is_head=False, parent=parent)
-        except ValueError:
-            return
-        else:
-            self.fail("Invalid parent should fail")
 
     def test_next(self):
         """Check if the next is the same as the child"""
-        parent = ChainNode(1, is_head=True)
-        node = ChainNode(2, is_head=False, parent=parent)
+        parent = HashChainNode(1, is_head=True)
+        node = HashChainNode(2, is_head=False, parent=parent)
         self.assertEqual(node, parent.next)
+
+    def test_set_parent_changes_hash(self):
+        """Check if the hash is updated when a new parent is set"""
+        head = HashChainNode(1, is_head=True)
+        head2 = HashChainNode(3, is_head=True)
+
+        child = HashChainNode(2, parent=head)
+        self.assertEqual(child.get_stored_value(), 2)
+        self.assertEqual(child.parent_hash, hash(head.get_stored_value()), f"{child.parent_hash} != {hash(head.get_stored_value())}")
+
+        child.parent = head2
+        self.assertEqual(child.parent_hash, hash(head2.get_stored_value()))
