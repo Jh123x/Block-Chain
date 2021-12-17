@@ -23,7 +23,12 @@ if __name__ == "__main__":
 
         # Check if the hash is correct from the child
         child = curr.next
-        print(f"Hash match: {child.parent_hash == HashChainNode.hash(curr)}\n")
+
+        if match := HashChainNode.check_hash(curr, child):
+            print(f"Hash match: {HashChainNode.check_hash(curr, child)}\n")
+        else:
+            print(f"Hash mismatch, chain is rejected\n")
+            break
 
         # Go to the next part of the chain
         curr = curr.next
