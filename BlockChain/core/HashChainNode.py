@@ -24,7 +24,8 @@ class HashChainNode(ChainNode):
             return self._parent
 
         if self.parent_hash != hash(self._parent.get_stored_value()):
-            raise ValueError(f"Parent hash does not match: {self.parent_hash} != {hash(self._parent.get_stored_value())}")
+            raise ValueError(
+                f"Parent hash does not match: {self.parent_hash} != {hash(self._parent.get_stored_value())}")
 
         return self._parent
 
@@ -43,4 +44,5 @@ class HashChainNode(ChainNode):
         value.next = self
 
     def __str__(self):
+        """String representation of the hash chain node"""
         return f"HashChainNode {'(head)' if self.is_head else ''}: {str(self._value)} -> {str(self.next)}"
