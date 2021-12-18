@@ -5,16 +5,16 @@ class ChainNode(object):
     def __init__(self, value: Any, parent: 'ChainNode' = None, is_head: bool = False) -> None:
         """A chain node is a node in a chain"""
         super().__init__()
-        self.is_head = is_head
-        self._parent = parent
+        self.is_head: bool = is_head
+        self._parent: 'ChainNode' = parent
 
         self._is_valid_chain(parent, is_head)
 
         if parent is not None:
             parent.next = self
 
-        self._value = value
-        self._next = None
+        self._value: Any = value
+        self._next: Optional['ChainNode'] = None
 
     def _is_valid_chain(self, parent, is_head):
         """Checks if the chain is valid"""
@@ -38,10 +38,12 @@ class ChainNode(object):
 
     @next.setter
     def next(self, value: 'ChainNode') -> None:
+        """Sets the next"""
         self._next = value
 
     @property
     def parent(self) -> Optional['ChainNode']:
+        """Sets the parent"""
         return self._parent
 
     @parent.setter
@@ -51,4 +53,5 @@ class ChainNode(object):
         self._parent = value
 
     def __str__(self):
+        """String representation of a ChainNode"""
         return f"ChainNode: {str(self._value)} -> {str(self._next)}"

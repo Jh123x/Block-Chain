@@ -1,3 +1,4 @@
+from typing import Optional
 from .Contracts import Contract
 from .Transaction import Transaction
 from .HashChainNode import HashChainNode
@@ -5,23 +6,25 @@ from .HashChainNode import HashChainNode
 
 class HashBlockChain(object):
 
-    def __init__(self, head: HashChainNode) -> None:
+    def __init__(self, head: HashChainNode = None) -> None:
         """A block chain is a chain of hash chain nodes"""
         super().__init__()
 
         # Head and tail logic
-        self.head = head
-        self.tail = head
+        self.head: Optional['HashChainNode'] = head
+        self.tail: Optional['HashChainNode'] = head
 
         # Keep track of contracts
         self.contracts: list[Contract] = []
+        self._current_state: dict[str, int] = {}
 
         # Keep track of all users
-        transaction = head.get_stored_value()
-        self._current_state = {
-            transaction.sender: -transaction.amount,
-            transaction.recipient: transaction.amount,
-        }
+        if head is None:
+            return
+
+        transaction: Transaction = head.get_stored_value()
+        self._current_state[transaction.sender] = -transaction.amount,
+        self._current_state[transaction.recipient] = transaction.amount
 
     def get_current_state(self) -> dict:
         """Get a copy of the current state"""
@@ -34,8 +37,12 @@ class HashBlockChain(object):
         self._current_state[person_name] += amount_change
 
     def _add_transaction(self, transaction: Transaction):
-        new_node = HashChainNode(transaction, self.tail)
-        self.tail = new_node
+        if self.head is None:
+            self.head = HashChainNode(transaction, is_head=True)
+            self.tail = self.head
+        else:
+            new_node = HashChainNode(transaction, self.tail)
+            self.tail = new_node
 
         # Update current state
         self._update_state_for_user(transaction.sender, -transaction.amount)

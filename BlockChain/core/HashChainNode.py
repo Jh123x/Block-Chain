@@ -6,13 +6,14 @@ class HashChainNode(ChainNode):
 
     def __init__(self, value: Any, parent: 'ChainNode' = None, is_head: bool = False) -> None:
         """A hash chain node is a chain node with a hash value"""
-        self._is_init = True
+        self._is_init: bool = True
         super().__init__(value, parent, is_head=is_head)
         if self.parent is not None:
-            self.parent_hash = hash(self.parent.get_stored_value())
+            self.parent_hash: Optional[int] = hash(
+                self.parent.get_stored_value())
         else:
-            self.parent_hash = None
-        self._is_init = False
+            self.parent_hash: Optional[int] = None
+        self._is_init: bool = False
 
     @property
     def parent(self) -> Optional['HashChainNode']:
@@ -43,6 +44,6 @@ class HashChainNode(ChainNode):
         self.parent_hash = hash(value.get_stored_value())
         value.next = self
 
-    def __str__(self):
+    def __str__(self) -> str:
         """String representation of the hash chain node"""
         return f"HashChainNode {'(head)' if self.is_head else ''}: {str(self._value)} -> {str(self.next)}"

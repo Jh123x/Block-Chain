@@ -4,9 +4,9 @@ from hashlib import sha512
 class Transaction(object):
     def __init__(self, sender: str, recipient: str, amount: int) -> None:
         """Records a transaction between a sender and a recipient"""
-        self.sender = sender
-        self.recipient = recipient
-        self.amount = amount
+        self.sender: str = sender
+        self.recipient: str = recipient
+        self.amount: int = amount
 
         if amount <= 0:
             raise ValueError("Amount must be greater than zero")
