@@ -1,9 +1,8 @@
-from BlockChain.core.HashChainNode import HashChainNode
+from .CheckHash import check_hash
+
 from BlockChain.core.Transaction import Transaction
+from BlockChain.core.HashChainNode import HashChainNode
 
-
-def check_hash(parent: HashChainNode, child: HashChainNode) -> bool:
-    return hash(parent.get_stored_value()) == child.parent_hash
 
 def calculate_balance(head: HashChainNode) -> dict[str, int]:
     """Calcualte the balance of all the users in the chain"""
@@ -29,7 +28,7 @@ def calculate_balance(head: HashChainNode) -> dict[str, int]:
 
         if curr.next is None:
             break
-        
+
         # Check the hash
         if not check_hash(curr, curr.next):
             raise ValueError("Invalid chain")
