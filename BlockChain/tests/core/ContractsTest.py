@@ -71,17 +71,12 @@ class ContractTest(unittest.TestCase):
             self.CONDITION_B_TRANSACTION_MORE_THAN_5,
             self.TRANSACTION_CREATOR_A
         )
-
-        try:
+        with self.assertRaises(ValueError):
             _ = c.apply_contract(
                 self.current_state,
                 self.head.get_stored_value(),
                 self.head
             )
-        except ValueError:
-            return
-        else:
-            self.fail("Expected ValueError as contract is not eligible")
 
     def test_force_apply_contract_success(self):
         """Test the application of contracts"""

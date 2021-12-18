@@ -14,12 +14,8 @@ class ChainNodeTest(unittest.TestCase):
 
     def test_init_failure(self):
         """Initializing head with a parent should fail"""
-        try:
+        with self.assertRaises(ValueError):
             _ = ChainNode(1, parent=ChainNode(2), is_head=True)
-        except ValueError:
-            return
-        else:
-            self.fail("ValueError not raised")
 
     def test_init_child_success(self):
         """Check if the values of the chain is stored correctly"""
@@ -31,12 +27,8 @@ class ChainNodeTest(unittest.TestCase):
 
     def test_init_child_failure(self):
         """Initialize a child without a parent"""
-        try:
-            node = ChainNode(1)
-        except ValueError:
-            return
-        else:
-            self.fail(f"ValueError not raised: {node}")
+        with self.assertRaises(ValueError):
+            _ = ChainNode(1)
 
     def test_get_stored_value(self):
         """Check if the values of the chain is stored correctly"""
@@ -51,13 +43,10 @@ class ChainNodeTest(unittest.TestCase):
         self.assertEqual(node.parent, parent)
 
     def test_parent_failure(self):
+        """Check if parent assignment to number is invalid"""
         parent = 3
-        try:
+        with self.assertRaises(ValueError):
             _ = ChainNode(2, is_head=False, parent=parent)
-        except ValueError:
-            return
-        else:
-            self.fail("Invalid parent should fail")
 
     def test_next(self):
         """Check if the next is the same as the child"""
@@ -78,10 +67,5 @@ class ChainNodeTest(unittest.TestCase):
 
     def test_parent_failure(self):
         """Check if parent assignment to None is invalid"""
-        try:
+        with self.assertRaises(ValueError):
             _ = ChainNode(2, is_head=False, parent=None)
-        except ValueError:
-            return
-        else:
-            self.fail("Invalid parent should fail")
-

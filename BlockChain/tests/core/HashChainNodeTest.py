@@ -14,12 +14,8 @@ class HashChainNodeTest(unittest.TestCase):
 
     def test_init_failure(self):
         """Initializing head with a parent should fail"""
-        try:
+        with self.assertRaises(ValueError):
             _ = HashChainNode(1, parent=HashChainNode(2), is_head=True)
-        except ValueError:
-            return
-        else:
-            self.fail("ValueError not raised")
 
     def test_init_child_success(self):
         """Check if the values of the chain is stored correctly"""
@@ -32,12 +28,8 @@ class HashChainNodeTest(unittest.TestCase):
 
     def test_init_child_failure(self):
         """Initialize a child without a parent"""
-        try:
-            node = HashChainNode(1)
-        except ValueError:
-            return
-        else:
-            self.fail(f"ValueError not raised: {node}")
+        with self.assertRaises(ValueError):
+            _ = HashChainNode(1)
 
     def test_get_stored_value(self):
         """Check if the values of the chain is stored correctly"""
