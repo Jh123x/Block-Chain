@@ -63,7 +63,14 @@ class HashChainNodeTest(unittest.TestCase):
 
         child = HashChainNode(2, parent=head)
         self.assertEqual(child.get_stored_value(), 2)
-        self.assertEqual(child.parent_hash, hash(head.get_stored_value()), f"{child.parent_hash} != {hash(head.get_stored_value())}")
+        self.assertEqual(
+            child.parent_hash,
+            hash(
+                head.get_stored_value(
+                )
+            ),
+            f"{child.parent_hash} != {hash(head.get_stored_value())}"
+        )
 
         child.parent = head2
         self.assertEqual(child.parent_hash, hash(head2.get_stored_value()))
