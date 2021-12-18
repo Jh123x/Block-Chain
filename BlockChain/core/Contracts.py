@@ -11,18 +11,12 @@ class Contract(object):
         super().__init__()
         self.name = name
         self.conditional = conditional
-        self.transaction = transaction
+        self._transaction = transaction
 
     def is_eligible(self, current_state: dict, latest_transaction: Transaction) -> bool:
         """Applies the contract to the current state"""
         return self.conditional(current_state, latest_transaction)
 
-    def force_apply_contract(self, tail_chain: HashChainNode) -> HashChainNode:
-        """Apply the contract to the chain"""
-        return HashChainNode(self.transaction, parent=tail_chain)
-
-    def apply_contract(self, current_state: dict, latest_transaction: Transaction, tail_chain: HashChainNode) -> HashChainNode:
-        """Apply the contract to the current state"""
-        if not self.is_eligible(current_state, latest_transaction):
-            raise ValueError("Contract not eligible")
-        return self.force_apply_contract(tail_chain)
+    @property
+    def transaction(self):
+        return self._transaction
