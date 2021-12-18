@@ -1,21 +1,11 @@
+"""Tests for the `HashChainNode` class"""
+
 import unittest
-from BlockChain.core.HashChainNode import HashChainNode
+from block_chain.core.hash_chain_node import HashChainNode
 
 
 class HashChainNodeTest(unittest.TestCase):
-
-    def test_init_head_success(self):
-        """Check if the values of the chain is stored correctly"""
-        node = HashChainNode(1, is_head=True)
-        self.assertEqual(node.get_stored_value(), 1)
-        self.assertTrue(node.is_head)
-        self.assertIsNone(node.next)
-        self.assertIsNone(node.parent)
-
-    def test_init_failure(self):
-        """Initializing head with a parent should fail"""
-        with self.assertRaises(ValueError):
-            _ = HashChainNode(1, parent=HashChainNode(2), is_head=True)
+    """Tests for the `HashChainNode` class"""
 
     def test_init_child_success(self):
         """Check if the values of the chain is stored correctly"""
@@ -25,11 +15,6 @@ class HashChainNodeTest(unittest.TestCase):
         self.assertFalse(node.is_head)
         self.assertIsNone(node.next)
         self.assertIsNotNone(node.parent)
-
-    def test_init_child_failure(self):
-        """Initialize a child without a parent"""
-        with self.assertRaises(ValueError):
-            _ = HashChainNode(1)
 
     def test_get_stored_value(self):
         """Check if the values of the chain is stored correctly"""

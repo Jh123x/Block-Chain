@@ -1,9 +1,9 @@
 from typing import Union
 from pprint import pprint
 
-from BlockChain.core.Contracts import Contract
-from BlockChain.core.Transaction import Transaction
-from BlockChain.core.BlockChain import HashBlockChain
+from block_chain.core.contracts import Contract
+from block_chain.core.transaction import Transaction
+from block_chain.core.block_chain import HashBlockChain
 
 
 def transact_when_alice_gt_50(current_state: dict, transaction: Transaction) -> bool:

@@ -1,9 +1,12 @@
+"""Tests for the transaction class"""
+
 import unittest
 
-from BlockChain.core.Transaction import Transaction
+from block_chain.core.transaction import Transaction
 
 
 class TransactionTest(unittest.TestCase):
+    """Tests for the Transaction class"""
     def test_init_success(self):
         """Check if the values of the transaction is stored correctly"""
         transaction = Transaction("1", "2", 3)

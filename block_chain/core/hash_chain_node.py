@@ -1,8 +1,11 @@
+"""A HashChainNode for the hash chain"""
+
 from typing import Any, Optional
-from .ChainNode import ChainNode
+from .chain_node import ChainNode
 
 
 class HashChainNode(ChainNode):
+    """A HashChainNode for the hash chain"""
 
     def __init__(self, value: Any, parent: 'ChainNode' = None, is_head: bool = False) -> None:
         """A hash chain node is a chain node with a hash value"""
@@ -26,7 +29,8 @@ class HashChainNode(ChainNode):
 
         if self.parent_hash != hash(self._parent.get_stored_value()):
             raise ValueError(
-                f"Parent hash does not match: {self.parent_hash} != {hash(self._parent.get_stored_value())}")
+                f"Parent hash does not match: {self.parent_hash} \
+                != {hash(self._parent.get_stored_value())}")
 
         return self._parent
 
@@ -46,4 +50,5 @@ class HashChainNode(ChainNode):
 
     def __str__(self) -> str:
         """String representation of the hash chain node"""
-        return f"HashChainNode {'(head)' if self.is_head else ''}: {str(self._value)} -> {str(self.next)}"
+        return f"HashChainNode {'(head)' if self.is_head else ''}: \
+            {str(self._value)} -> {str(self.next)}"

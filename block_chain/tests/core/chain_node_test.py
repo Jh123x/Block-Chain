@@ -1,8 +1,11 @@
+"""Tests for ChainNode class"""
+
 import unittest
-from BlockChain.core.ChainNode import ChainNode
+from block_chain.core.chain_node import ChainNode
 
 
 class ChainNodeTest(unittest.TestCase):
+    """Tests for ChainNode class"""
 
     def test_init_head_success(self):
         """Check if the values of the chain is stored correctly"""
@@ -54,18 +57,18 @@ class ChainNodeTest(unittest.TestCase):
         node = ChainNode(2, is_head=False, parent=parent)
         self.assertEqual(node, parent.next)
 
-    def test_parent_success(self):
+    def test_parent_hash_success(self):
         """Check if the parent assignment is correct"""
         parent = ChainNode(1, is_head=True)
         node = ChainNode(2, is_head=False, parent=parent)
 
         self.assertEqual(node.parent, parent)
-        p2 = ChainNode(3, is_head=True)
-        node.parent = p2
-        self.assertEqual(node.parent, p2)
+        parent_2 = ChainNode(3, is_head=True)
+        node.parent = parent_2
+        self.assertEqual(node.parent, parent_2)
         self.assertIsNone(parent.parent)
 
-    def test_parent_failure(self):
+    def test_parent_hash_failure(self):
         """Check if parent assignment to None is invalid"""
         with self.assertRaises(ValueError):
             _ = ChainNode(2, is_head=False, parent=None)

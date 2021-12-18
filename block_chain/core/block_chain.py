@@ -1,11 +1,13 @@
+"""A hash block chain"""
+
 from typing import Optional
-from .Contracts import Contract
-from .Transaction import Transaction
-from .HashChainNode import HashChainNode
+from .contracts import Contract
+from .transaction import Transaction
+from .hash_chain_node import HashChainNode
 
 
-class HashBlockChain(object):
-
+class HashBlockChain:
+    """A hash block chain"""
     def __init__(self, head: HashChainNode = None) -> None:
         """A block chain is a chain of hash chain nodes"""
         super().__init__()
@@ -62,7 +64,7 @@ class HashBlockChain(object):
         for contract in self.contracts:
             if not contract.is_eligible(self._current_state, self.tail.get_stored_value()):
                 continue
-            self._add_transaction(contract._transaction)
+            self._add_transaction(contract.transaction)
             applied_contracts.append(contract)
 
         for contract in applied_contracts:

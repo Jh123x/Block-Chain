@@ -1,19 +1,14 @@
+"""Tests for the Contract class"""
+
 import unittest
-from BlockChain.core.Contracts import Contract
-from BlockChain.core.HashChainNode import HashChainNode
-from BlockChain.core.Transaction import Transaction
+from block_chain.core.contracts import Contract
+from block_chain.core.hash_chain_node import HashChainNode
+from block_chain.core.transaction import Transaction
+from .conditions import condition_any_transaction, condition_transaction_gt_5
 
 
 class ContractTest(unittest.TestCase):
-
-    @staticmethod
-    def CONDITION_A_ANY_TRANSACTION(
-        _: dict, __: Transaction): return True
-
-    @staticmethod
-    def CONDITION_B_TRANSACTION_MORE_THAN_5(
-        _: dict, latest_transaction: Transaction): return latest_transaction.amount > 5
-
+    """Tests for the Contract class"""
     TRANSACTION_CREATOR_A = Transaction("a", "b", 1)
     TRANSACTION_CREATOR_B = Transaction("b", "a", 2)
 
@@ -27,13 +22,13 @@ class ContractTest(unittest.TestCase):
 
     def test_eligible_success(self):
         """Test if the contract is eligible"""
-        c = Contract(
-            self.CONDITION_A_ANY_TRANSACTION,
+        contract = Contract(
+            condition_any_transaction,
             self.TRANSACTION_CREATOR_A
         )
 
         self.assertTrue(
-            c.is_eligible(
+            contract.is_eligible(
                 self.current_state,
                 self.head.get_stored_value()
             )
@@ -41,15 +36,14 @@ class ContractTest(unittest.TestCase):
 
     def test_eligibile_failure(self):
         """Test if the contract is not eligible"""
-        c = Contract(
-            self.CONDITION_B_TRANSACTION_MORE_THAN_5,
+        contract = Contract(
+            condition_transaction_gt_5,
             self.TRANSACTION_CREATOR_A
         )
 
         self.assertFalse(
-            c.is_eligible(
+            contract.is_eligible(
                 self.current_state,
                 self.head.get_stored_value()
             )
         )
-

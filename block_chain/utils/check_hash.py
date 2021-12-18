@@ -1,4 +1,6 @@
-from BlockChain.core.HashChainNode import HashChainNode
+"""Checks if the hash is on the child is the same as the parent"""
+
+from block_chain.core.hash_chain_node import HashChainNode
 
 
 def check_hash(parent: HashChainNode, child: HashChainNode) -> bool:

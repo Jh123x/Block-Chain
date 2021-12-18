@@ -1,7 +1,11 @@
+"""Transactions in the Chain"""
+
 from hashlib import sha512
 
 
-class Transaction(object):
+class Transaction:
+    """A Transaction in the Chain"""
+
     def __init__(self, sender: str, recipient: str, amount: int) -> None:
         """Records a transaction between a sender and a recipient"""
         self.sender: str = sender
@@ -16,7 +20,11 @@ class Transaction(object):
 
     def __eq__(self, __o: object) -> bool:
         """Check if 2 transactions are equal"""
-        return isinstance(__o, Transaction) and hash(self) == hash(__o) and self.sender == __o.sender and self.recipient == __o.recipient and self.amount == __o.amount
+        return isinstance(__o, Transaction) and \
+            hash(self) == hash(__o) and \
+            self.sender == __o.sender and \
+            self.recipient == __o.recipient and \
+            self.amount == __o.amount
 
     def __str__(self):
         """String representation of a transaction"""

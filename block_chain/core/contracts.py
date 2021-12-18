@@ -1,11 +1,16 @@
+"""Represents a contract on the chain"""
+
 from types import LambdaType
-from .Transaction import Transaction
+from .transaction import Transaction
 
 
-class Contract(object):
+class Contract:
+    """Represents a contract on the chain"""
+
     def __init__(self, conditional: LambdaType, transaction: Transaction, name: str = "") -> None:
         """Smart contracts to be executed on the blockchain
-            Signature of conditional function: def condition(Contract, current_state: dict, latest_transaction: Transaction) -> bool
+            Signature of conditional function:
+                def condition(current_state: dict, latest_transaction: Transaction) -> bool
         """
         super().__init__()
         self.name: str = name
@@ -22,4 +27,5 @@ class Contract(object):
 
     @property
     def transaction(self):
+        """Retrieves the transaction of the contract"""
         return self._transaction

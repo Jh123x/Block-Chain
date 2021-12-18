@@ -1,7 +1,9 @@
-from .CheckHash import check_hash
+"""Calculate balances from the HashChainNode"""
 
-from BlockChain.core.Transaction import Transaction
-from BlockChain.core.HashChainNode import HashChainNode
+from block_chain.core.transaction import Transaction
+from block_chain.core.hash_chain_node import HashChainNode
+
+from .check_hash import check_hash
 
 
 def calculate_balance(head: HashChainNode) -> dict[str, int]:

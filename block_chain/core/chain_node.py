@@ -1,31 +1,36 @@
+"""A Node in the chain"""
+
 from typing import Any, Optional
 
 
-class ChainNode(object):
+def _is_valid_chain(parent, is_head):
+    """Checks if the chain is valid"""
+    if is_head and parent is not None:
+        raise ValueError("Head nodes cannot have a parent")
+
+    if not is_head and parent is None:
+        raise ValueError("Non-head nodes must have a parent")
+
+    if not issubclass(type(parent), ChainNode) and parent is not None:
+        raise ValueError("Parent must be a ChainNode")
+
+
+class ChainNode:
+    """A Node in the chain"""
+
     def __init__(self, value: Any, parent: 'ChainNode' = None, is_head: bool = False) -> None:
         """A chain node is a node in a chain"""
         super().__init__()
         self.is_head: bool = is_head
         self._parent: 'ChainNode' = parent
 
-        self._is_valid_chain(parent, is_head)
+        _is_valid_chain(parent, is_head)
 
         if parent is not None:
             parent.next = self
 
         self._value: Any = value
         self._next: Optional['ChainNode'] = None
-
-    def _is_valid_chain(self, parent, is_head):
-        """Checks if the chain is valid"""
-        if is_head and parent is not None:
-            raise ValueError("Head nodes cannot have a parent")
-
-        if not is_head and parent is None:
-            raise ValueError("Non-head nodes must have a parent")
-
-        if not issubclass(type(parent), ChainNode) and parent is not None:
-            raise ValueError("Parent must be a ChainNode")
 
     def get_stored_value(self) -> Any:
         """Gets the value stored in the node"""

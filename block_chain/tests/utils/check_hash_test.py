@@ -1,11 +1,13 @@
+"""Tests for check_hash function"""
+
 import unittest
 
-from BlockChain.utils.CheckHash import check_hash
-from BlockChain.core.HashChainNode import HashChainNode
+from block_chain.utils.check_hash import check_hash
+from block_chain.core.hash_chain_node import HashChainNode
 
 
 class CheckHashTest(unittest.TestCase):
-
+    """Main class for checking check_hash"""
     def test_parent_child_hash_success(self):
         """Check if the child's parent hash matches the parent's hash"""
         node1 = HashChainNode(1, is_head=True)
