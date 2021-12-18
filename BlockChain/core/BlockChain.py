@@ -23,8 +23,8 @@ class HashBlockChain(object):
             return
 
         transaction: Transaction = head.get_stored_value()
-        self._current_state[transaction.sender] = -transaction.amount,
-        self._current_state[transaction.recipient] = transaction.amount
+        self._update_state_for_user(transaction.sender, -transaction.amount)
+        self._update_state_for_user(transaction.recipient, transaction.amount)
 
     def get_current_state(self) -> dict:
         """Get a copy of the current state"""

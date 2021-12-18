@@ -18,8 +18,8 @@ class HashBlockChainTest(unittest.TestCase):
 
     def setUp(self):
         """Set up for each of the unit tests"""
-        head = HashChainNode(Transaction("a", "b", 2), is_head=True)
-        self.blockchain = HashBlockChain(head)
+        self.blockchain = HashBlockChain()
+        self.blockchain.add_transaction(Transaction("a", "b", 2))
         self.current_state = {
             "a": -2,
             "b": 2,
@@ -32,15 +32,27 @@ class HashBlockChainTest(unittest.TestCase):
         del self.current_state
         return super().tearDown()
 
+    def test_add_block_chain(self):
+        """Create chain from node"""
+        blockchain = HashBlockChain(HashChainNode(Transaction("a", "b", 2), is_head=True))
+        expected = {
+            'a': -2,
+            'b': 2,
+        }
+        self.assertEqual(blockchain.get_current_state(), expected)
+        blockchain.add_transaction(Transaction("a", "b", 2))
+
+
     def test_check_current_state(self):
         """Check if the current state is correct"""
-        self.assertTrue(
-            self.current_state == self.blockchain.get_current_state()
+        self.assertEqual(
+            self.current_state, self.blockchain.get_current_state()
         )
 
     def test_add_transaction(self):
         """Check if the add transaction method works"""
         self.blockchain.add_transaction(Transaction("b", "a", 2))
+        
         expected = {
             "a": 0,
             "b": 0,
