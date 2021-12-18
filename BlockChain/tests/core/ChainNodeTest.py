@@ -64,3 +64,24 @@ class ChainNodeTest(unittest.TestCase):
         parent = ChainNode(1, is_head=True)
         node = ChainNode(2, is_head=False, parent=parent)
         self.assertEqual(node, parent.next)
+
+    def test_parent_success(self):
+        """Check if the parent assignment is correct"""
+        parent = ChainNode(1, is_head=True)
+        node = ChainNode(2, is_head=False, parent=parent)
+
+        self.assertEqual(node.parent, parent)
+        p2 = ChainNode(3, is_head=True)
+        node.parent = p2
+        self.assertEqual(node.parent, p2)
+        self.assertIsNone(parent.parent)
+
+    def test_parent_failure(self):
+        """Check if parent assignment to None is invalid"""
+        try:
+            _ = ChainNode(2, is_head=False, parent=None)
+        except ValueError:
+            return
+        else:
+            self.fail("Invalid parent should fail")
+
